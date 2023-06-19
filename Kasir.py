@@ -3,7 +3,7 @@ print("            GROSIR MARKET               ")
 print("========================================")
 pembeli = input("Masukkan nama Pembeli: ")
 print("Nama Pembeli :", pembeli)
-
+print("========================================")
 def fungsibelanja():
     global totalblj
     global jumlah
