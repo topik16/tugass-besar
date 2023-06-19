@@ -125,4 +125,4 @@ print("\nDaftar Produk Setelah Diurutkan Berdasarkan Harga :")
 print("\n=================== DAFTAR PRODUK YANG DIBELI ===================")
 for i in range(jumlah_barang):
     print(daftar_produk[i], "- Rp", daftar_harga_produk[i])
-print("=================================================================")
+print("==================================================================")
