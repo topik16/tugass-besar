@@ -111,8 +111,8 @@ else:
 
 
 # Sorting harga barang
-daftar_harga_produk = [item[2] for item in cart if "Berapa" in item[0]]
-daftar_produk = [item[0] for item in cart if "Berapa" in item[0]]
+daftar_harga_produk = [item[2] for item in cart]
+daftar_produk = [item[0] for item in cart]
 jumlah_barang = len(daftar_harga_produk)
 
 for i in range(jumlah_barang):
@@ -120,3 +120,9 @@ for i in range(jumlah_barang):
         if daftar_harga_produk[j] > daftar_harga_produk[j + 1]:
             daftar_harga_produk[j], daftar_harga_produk[j + 1] = daftar_harga_produk[j + 1], daftar_harga_produk[j]
             daftar_produk[j], daftar_produk[j + 1] = daftar_produk[j + 1], daftar_produk[j]
+
+print("\nDaftar Produk Setelah Diurutkan Berdasarkan Harga :")
+print("\n=================== DAFTAR PRODUK YANG DIBELI ===================")
+for i in range(jumlah_barang):
+    print(daftar_produk[i], "- Rp", daftar_harga_produk[i])
+print("=================================================================")
