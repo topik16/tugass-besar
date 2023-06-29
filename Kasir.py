@@ -19,6 +19,8 @@ daftar_barang = [
     {"nama": "Mentega", "harga": 3500}
 ]
 
+daftar_barang.sort(key=lambda x: x["nama"])
+
 # Searching barang
 def searching_produk(nama_barang):
     for barang in daftar_barang:
