@@ -6,7 +6,7 @@ pembeli = input("Masukkan Nama Pembeli: ")
 print("Nama Pembeli :", pembeli)
 
 
-# Array untuk daftar barang
+# Array untuk daftar barang dan sorting ascending
 daftar_barang = [
     {"nama": "Minyak Goreng", "harga": 15000},
     {"nama": "Garam", "harga": 9000},
@@ -42,6 +42,7 @@ def get_nama_barang(harga_barang):
         if barang["harga"] == harga_barang:
             return barang["nama"]
     return None
+    
 # Fungsi untuk melakukan pembelian barang
 def fungsibelanja():
     global totalblj
@@ -62,6 +63,7 @@ def fungsibelanja():
     else:
         print("Pilihan tidak ada, silahkan masukan lagi!!")
         fungsibelanja()
+
 # Memperbarui daftar barang setelah pembelian
 def update_daftar_barang(nama_barang, jumlah_beli):
     for barang in daftar_barang:
@@ -92,7 +94,7 @@ def cari_barang():
     else:
         print("Barang", nama_barang, "tidak tersedia di menu.")
 
-# Melakukan sorting daftar barang berdasarkan harga
+# Melakukan sorting daftar barang berdasarkan harga dengan bubble sort
 def sorting_harga_barang():
     daftar_harga_produk = [item[2] for item in cart]
     daftar_produk = [item[0] for item in cart]
@@ -109,6 +111,7 @@ def sorting_harga_barang():
     for i in range(jumlah_barang):
         print(daftar_produk[i], "- Rp", daftar_harga_produk[i])
     print("=================================================================")
+
 # Menghapus barang dari keranjang
 def hapus_barang():
     if len(cart) == 0:
@@ -138,7 +141,8 @@ def batalkan_hapus():
             print("Barang", restored_item[0], "dengan jumlah", restored_item[1], "telah dibatalkan penghapusannya.")
         else:
             print("Nomor barang tidak valid.")
-            
+
+
 # Variabel global
 totalblj = 0
 jumlah = 0
@@ -198,6 +202,8 @@ while True:
     else:
         print("\nBelanjaan telah lunas.")
         break
+
+
 print("\n=======================================================")
 print("========== S T R U K   P E M B E L I A N ==============")
 print("=======================================================")
