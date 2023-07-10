@@ -1,12 +1,12 @@
 # Program utama
+
 print("========================================")
 print("            GROSIR MARKET               ")
 print("========================================")
 pembeli = input("Masukkan Nama Pembeli: ")
 print("Nama Pembeli :", pembeli)
 
-
-# Array untuk daftar barang dan sorting ascending
+# Array untuk daftar barang
 daftar_barang = [
     {"nama": "Minyak Goreng", "harga": 15000},
     {"nama": "Garam", "harga": 9000},
@@ -24,7 +24,7 @@ daftar_barang.sort(key=lambda x: x["nama"])
 # Searching barang
 def searching_produk(nama_barang):
     for barang in daftar_barang:
-        if barang["nama"] == nama_barang:
+        if barang["nama"].lower() == nama_barang.lower():
             return barang
     return None
 
@@ -42,7 +42,7 @@ def get_nama_barang(harga_barang):
         if barang["harga"] == harga_barang:
             return barang["nama"]
     return None
-    
+
 # Fungsi untuk melakukan pembelian barang
 def fungsibelanja():
     global totalblj
@@ -52,22 +52,34 @@ def fungsibelanja():
     print("DAFTAR PRODUK")
     for i, barang in enumerate(daftar_barang, start=1):
         print(f"{i}. {barang['nama']} - Rp {barang['harga']}")
-    nomor = int(input("Masukkan Pilihan: "))
+    pilihan = input("Masukkan Nama Barang atau Nomor Barang: ")
     jumlah = int(input("Jumlah: "))
 
-    if 1 <= nomor <= len(daftar_barang):
-        harga_barang = daftar_barang[nomor - 1]["harga"]
-        totalblj = jumlah * harga_barang
-        print(jumlah, " Jumlah = Rp", totalblj)
-        barang = daftar_barang[nomor - 1]["nama"]
+    # Cek jika pilihan adalah angka
+    if pilihan.isdigit():
+        nomor = int(pilihan)
+        if 1 <= nomor <= len(daftar_barang):
+            barang = daftar_barang[nomor - 1]
+            harga_barang = barang["harga"]
+            totalblj = jumlah * harga_barang
+            print(jumlah, " Jumlah = Rp", totalblj)
+        else:
+            print("Pilihan tidak ada, silakan masukan lagi!!")
+            fungsibelanja()
     else:
-        print("Pilihan tidak ada, silahkan masukan lagi!!")
-        fungsibelanja()
+        barang = searching_produk(pilihan)
+        if barang:
+            harga_barang = barang["harga"]
+            totalblj = jumlah * harga_barang
+            print(jumlah, " Jumlah = Rp", totalblj)
+        else:
+            print("Barang tidak ditemukan. Silakan coba lagi!")
+            fungsibelanja()
 
 # Memperbarui daftar barang setelah pembelian
 def update_daftar_barang(nama_barang, jumlah_beli):
     for barang in daftar_barang:
-        if barang["nama"] == nama_barang:
+        if barang["nama"].lower() == nama_barang.lower():
             barang["jumlah"] = barang.get("jumlah", 0) + jumlah_beli
 
 # Shopping cart
@@ -75,12 +87,12 @@ cart = []
 
 def tambah_barang():
     fungsibelanja()
-    cart.append((barang, jumlah, totalblj))
-    update_daftar_barang(barang, jumlah)
+    cart.append((barang["nama"], jumlah, totalblj))
+    update_daftar_barang(barang["nama"], jumlah)
 
 # Melihat daftar barang dalam keranjang
-def lihat_barang():
-    print("\n=================== DAFTAR PRODUK DALAM KERANJANG ===================")
+def lihat_pesanan():
+    print("\n=================== DAFTAR PRODUK YANG DIBELI  ===================")
     for item in cart:
         print(item[0], "- Jumlah:", item[1], "- Harga: Rp", item[2])
     print("=====================================================================")
@@ -104,7 +116,7 @@ def sorting_harga_barang():
         for j in range(jumlah_barang - i - 1):
             if daftar_harga_produk[j] > daftar_harga_produk[j + 1]:
                 daftar_harga_produk[j], daftar_harga_produk[j + 1] = daftar_harga_produk[j + 1], daftar_harga_produk[j]
-                daftar_produk[j], daftar_produk[j + 1] = daftar_produk[j + 1], daftar_produk[j]
+                daftar_produk[j], daftar_produk[j + 1] = daftar_produk[j + 1], daftar_produk[j + 1], daftar_produk[j]
 
     print("\nDaftar Produk Setelah Diurutkan Berdasarkan Harga :")
     print("\n=================== DAFTAR PRODUK YANG DIBELI ===================")
@@ -117,12 +129,17 @@ def hapus_barang():
     if len(cart) == 0:
         print("Keranjang belanja kosong.")
     else:
-        lihat_barang()
+        lihat_pesanan()
         index = int(input("Masukkan nomor barang yang ingin dihapus: ")) - 1
         if index >= 0 and index < len(cart):
-            removed_item = cart.pop(index)
-            deleted_items.append(removed_item)
-            print("Barang", removed_item[0], "dengan jumlah", removed_item[1], "telah dihapus dari keranjang.")
+            print("Anda akan menghapus barang", cart[index][0])
+            konfirmasi = input("Apakah Anda yakin ingin menghapus barang tersebut? (ya/tidak): ")
+            if konfirmasi.lower() == "ya":
+                deleted_item = cart.pop(index)
+                deleted_items.append(deleted_item)
+                print("Barang", deleted_item[0], "dengan jumlah", deleted_item[1], "telah dihapus dari keranjang.")
+            else:
+                print("Penghapusan barang dibatalkan.")
         else:
             print("Nomor barang tidak valid.")
 
@@ -142,7 +159,6 @@ def batalkan_hapus():
         else:
             print("Nomor barang tidak valid.")
 
-
 # Variabel global
 totalblj = 0
 jumlah = 0
@@ -153,9 +169,9 @@ deleted_items = []
 while True:
     print("\n<====================== MENU ========================>")
     print("1. Tambah Barang")
-    print("2. Lihat Barang")
+    print("2. Lihat Pesanan")
     print("3. Hapus Barang")
-    print("4. Batalkan Pengapusan Barang")
+    print("4. Batalkan Penghapusan Barang")
     print("5. Cari Barang")
     print("6. Sorting Harga Barang")
     print("7. Selesai Belanja")
@@ -164,7 +180,7 @@ while True:
     if menu == "1":
         tambah_barang()
     elif menu == "2":
-        lihat_barang()
+        lihat_pesanan()
     elif menu == "3":
         hapus_barang()
     elif menu == "4":
