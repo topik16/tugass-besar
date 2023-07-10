@@ -28,7 +28,6 @@ def searching_produk(nama_barang):
             return barang
     return None
 
-# Mendapatkan harga barang dari nama barang
 def get_harga_barang(nama_barang):
     barang = searching_produk(nama_barang)
     if barang:
@@ -36,7 +35,6 @@ def get_harga_barang(nama_barang):
     else:
         return None
 
-# Mendapatkan nama barang dari harga barang
 def get_nama_barang(harga_barang):
     for barang in daftar_barang:
         if barang["harga"] == harga_barang:
@@ -55,7 +53,7 @@ def fungsibelanja():
     pilihan = input("Masukkan Nama Barang atau Nomor Barang: ")
     jumlah = int(input("Jumlah: "))
 
-    # Cek jika pilihan adalah angka
+    # jika pilihan adalah angka
     if pilihan.isdigit():
         nomor = int(pilihan)
         if 1 <= nomor <= len(daftar_barang):
@@ -82,7 +80,6 @@ def update_daftar_barang(nama_barang, jumlah_beli):
         if barang["nama"].lower() == nama_barang.lower():
             barang["jumlah"] = barang.get("jumlah", 0) + jumlah_beli
 
-# Shopping cart
 cart = []
 
 def tambah_barang():
